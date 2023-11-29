@@ -68,6 +68,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             monsterId = struct.unpack('L', e.data, 0x05 + 0x01);
             monsterIndex = bit.band(monsterId, 0x7FF);
             tpId = ashita.bits.unpack_be(e.data:totable(), 0, 213, 17);
+            textDuration = 0
             if (tpId < 256) then
                 tpName = AshitaCore:GetResourceManager():GetAbilityById(tpId)
                 tpString = ' readies ' .. tpName.Name[1]
@@ -79,13 +80,11 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
                 end
             end
             monsterName = AshitaCore:GetMemoryManager():GetEntity():GetName(monsterIndex);
-            textDuration = 0
             CheckString(tpString)
             if (actionMessage == 0) then -- Mob Skill interrupted
                 -- print('Enemy mob ability interrupted!!');
                 monsterId = struct.unpack('L', e.data, 0x05 + 0x01);
                 monsterIndex = bit.band(monsterId, 0x7FF);
-                textDuration = 0
                 tpId = 0
                 tpString = '\'s TP move interrupted!!!'
                 monsterName = AshitaCore:GetMemoryManager():GetEntity():GetName(monsterIndex);
@@ -97,6 +96,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             monsterId = struct.unpack('L', e.data, 0x05 + 0x01);
             monsterIndex = bit.band(monsterId, 0x7FF);
             spellId = actionPacket.Targets[1].Actions[1].Param
+            textDuration = 0
             local spellResource = AshitaCore:GetResourceManager():GetSpellById(spellId);
             if spellResource then
                 -- print(string.format('Enemy started casting %s.', spellResource.Name[1]));
@@ -104,13 +104,11 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
                     spellString = ' casting ' .. spellResource.Name[1]
                 end
                 monsterName = AshitaCore:GetMemoryManager():GetEntity():GetName(monsterIndex);
-                textDuration = 0
                 -- print(string.format('monsterName: %s', monsterName));
                 CheckString(spellString)
             end
             if (actionMessage == 0) then -- Magic Interrupted
                 -- print('Enemy spell interrupted!!');
-                textDuration = 0
                 spellString = '\'s spell interrupted!!!'
                 monsterName = AshitaCore:GetMemoryManager():GetEntity():GetName(monsterIndex);
                 CheckString(spellString)
