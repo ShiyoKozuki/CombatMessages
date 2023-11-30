@@ -1,4 +1,4 @@
-addon.name      = 'Combat messages';
+addon.name      = 'CombatMessages';
 addon.author    = 'Shiyo';
 addon.version   = '1.0.0.0';
 addon.desc      = 'Shows messages related to the enemies combat state.';
