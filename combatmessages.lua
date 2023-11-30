@@ -69,6 +69,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             monsterIndex = bit.band(monsterId, 0x7FF);
             tpId = ashita.bits.unpack_be(e.data:totable(), 0, 213, 17);
             textDuration = 0
+            spellString = nil
             if (tpId < 256) then
                 tpName = AshitaCore:GetResourceManager():GetAbilityById(tpId)
                 tpString = ' readies ' .. tpName.Name[1]
@@ -97,6 +98,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             monsterIndex = bit.band(monsterId, 0x7FF);
             spellId = actionPacket.Targets[1].Actions[1].Param
             textDuration = 0
+            tpString = nil
             local spellResource = AshitaCore:GetResourceManager():GetSpellById(spellId);
             if spellResource then
                 -- print(string.format('Enemy started casting %s.', spellResource.Name[1]));
