@@ -65,6 +65,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
         local actionPacket = ParseActionPacket(e);
         if (actionPacket.Type == 7) and IsMonster(actionPacket.UserIndex) and (myTarget == actionPacket.UserIndex) then -- Mobskill Start
             local actionMessage = actionPacket.Targets[1].Actions[1].Message
+            local actionAnimation = actionPacket.Targets[1].Actions[1].Animation
             monsterId = struct.unpack('L', e.data, 0x05 + 0x01);
             monsterIndex = bit.band(monsterId, 0x7FF);
             tpId = ashita.bits.unpack_be(e.data:totable(), 0, 213, 17);
@@ -82,7 +83,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             end
             monsterName = AshitaCore:GetMemoryManager():GetEntity():GetName(monsterIndex);
             CheckString(tpString)
-            if (actionMessage == 0) then -- Mob Skill interrupted
+            if (actionMessage == 0 or actionAnimation == 0x1FC) then -- Mob Skill interrupted
                 -- print('Enemy mob ability interrupted!!');
                 monsterId = struct.unpack('L', e.data, 0x05 + 0x01);
                 monsterIndex = bit.band(monsterId, 0x7FF);
