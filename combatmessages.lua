@@ -83,7 +83,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             end
             monsterName = AshitaCore:GetMemoryManager():GetEntity():GetName(monsterIndex);
             CheckString(tpString)
-            if (actionMessage == 0 or actionAnimation == 0x1FC) then -- Mob Skill interrupted
+            if (actionMessage == 0 or actionAnimation == 0x1FC or actionMessage == 76) then -- Mob Skill interrupted or no targets in AOE range (self target skill that has no valid targets in range)
                 -- print('Enemy mob ability interrupted!!');
                 monsterId = struct.unpack('L', e.data, 0x05 + 0x01);
                 monsterIndex = bit.band(monsterId, 0x7FF);
